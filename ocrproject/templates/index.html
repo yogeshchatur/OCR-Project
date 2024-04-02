@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block content%}
+
+<style>
+
+</style>
+
+
+<h5> Upload Image For The Classification </h5>
+<div>
+  <div>
+    <form method="POST" , enctype="multipart/form-data" onsubmit="return validateForm()">
+
+      {% csrf_token %}
+
+      <div class="col-md-4 col-sm-4"> <label for="fname"> Upload Image Here </label> </div>
+
+      <input type="file" name="image" id='imageInput' required>
+      <label for="language">language:</label>
+      <select id="language" name="language">
+        <option value="eng">English</option>
+        <option value="hin">Hindi</option>
+        <option value="mar">Marathi</option>
+      </select>
+      <button type="submit" value="submit">Upload</button>
+    </form>
+  </div>
+  <br>
+
+
+  {% if image_path %}
+  <div class="row">
+    <div class="col-sm-6 mb-3 mb-sm-0">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Image</h4>
+          <p class="card-text"></p>
+
+          <img src="{{ image_path.image.url }}" alt="Uploaded Image" class="card-img-top" alt="..." style="
+        height: 450px;
+        width: 450px">
+
+          {% comment %} > {% endcomment %}
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+
+
+          <h5 class="card-title">Extract Text From The Image {{image_path.image}} is </h5>
+          <p class="card-text">{{ extracted_text }}</p>
+
+          {% comment %} <a href="#" target="_blank" class="btn btn-primary" download>Download Pdf</a> {% endcomment %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <script>
+    function validateForm() {
+      var fileInput = document.getElementById('imageInput');
+      var file = fileInput.files[0];  // Get the selected file
+
+      if (!file) {
+        alert('Please select a file.');
+        return false;  // Prevent form submission
+      }
+
+      return true;  // Allow form submission if file is selected
+    }
+  </script>
+
+  {% endblock %}
